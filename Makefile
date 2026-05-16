@@ -9,6 +9,9 @@ run_en:
 run_es:
 	python main.py -l es
 
+run_page:
+	python SitoFlask/app.py
+
 test:
 	pytest -q
 
