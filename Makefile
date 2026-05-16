@@ -1,7 +1,13 @@
 .PHONY: run test clean
 
-run:
-	python main.py
+run_it:
+	python main.py -l it
+
+run_en:
+	python main.py -l en
+
+run_es:
+	python main.py -l es
 
 test:
 	pytest -q

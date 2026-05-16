@@ -46,5 +46,3 @@ memory_file = open("compiti.txt", "r", encoding = "utf8")
 contenuto_file = memory_file.read()
 print(contenuto_file)
 memory_file.close()
-
-
