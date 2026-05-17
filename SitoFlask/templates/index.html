@@ -1,17 +1,22 @@
 <!DOCTYPE html>
-<html lang="it">
+<html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>La mia prima pagina con Flask</title>
+   <title> Flask</title>
+   <meta charset="utf-8">
+   <meta name="viewport" content="width=device-width,initial-scale=1">
+   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 </head>
-<body>
-    <header>
-        <h1>Ecco il mio sito web!</h1>
-        <p>Questo sito rimarrà invariato finchè non capirò come modificarlo a mio piacimento, quindi per ora aspettiamo<p>
-    </header>
-    <main>
-        <p>Questa pagina è stata creata usando Python e Flask.</p>
-    </main>
+
+<body> {{text}}
+   <form action="/add_text" method="post">
+      <label for="textv">Valore:
+      </label>
+      <br>
+      <input type="text" id="textv" name="textv" value="">
+      <br>
+      <input type="submit" value="Invia">
+   </form>
 </body>
+
 </html>

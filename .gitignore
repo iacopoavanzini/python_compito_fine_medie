@@ -73,3 +73,5 @@ events
 
 *.po
 *.pot
+compiti.sqbpro
+compiti.db
