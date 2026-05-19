@@ -2,21 +2,132 @@
 <html lang="en">
 
 <head>
-   <title> Flask</title>
-   <meta charset="utf-8">
-   <meta name="viewport" content="width=device-width,initial-scale=1">
-   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Homework List App</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment-with-locales.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="static/timepicker.js"></script>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.15.1/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script
+        src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.7.14/js/bootstrap-datetimepicker.min.js"></script>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.7.14/css/bootstrap-datetimepicker.min.css">
+
 </head>
 
-<body> {{text}}
-   <form action="/add_text" method="post">
-      <label for="textv">Valore:
-      </label>
-      <br>
-      <input type="text" id="textv" name="textv" value="">
-      <br>
-      <input type="submit" value="Invia">
-   </form>
+<body>
+    <div class="container">
+        <div class="text-center panel-body">
+            <h1>Welcome to My Homework List App!</h1>
+        </div>
+        <div class="row">
+            <div class="row panel-body col-sm-5">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                            <a data-toggle="collapse" href="#collapseAdd">AddNewHomeworks</a>
+                        </h4>
+                    </div>
+                    <div id="collapseAdd" class="panel-body">
+                        <!-- Add this form below the task list in index.html -->
+                        <form method="POST" class="form-horizontal" action="{{ url_for('compiti') }}">
+                            <div class="form-group">
+                                <div class="col-sm-12">
+                                    <input type="text" class="form-control" id="title" name="title" placeholder="HomeworkTitle" required>
+                                    <span class="help-block">This is some help text...</span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-12">
+                                    <textarea class="form-control" rows="5" id="description" name="description" placeholder="Description"
+                                        required></textarea>
+                                        <span class="help-block">This is some help text...</span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                 <div class="col-sm-12">
+                                    <input type="text" class="form-control" id="schoolsubject" name="schoolsubject" placeholder="schoolsubject">
+                                    <span class="help-block">Enter the school subject.</span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class='col-sm-12'>
+                                    <div class='input-group date' id='datetimepicker1'>
+                                        <input type='text' class="form-control" id="when" name="when" placeholder="When" required />
+                                        <span class="input-group-addon">
+                                            <span class="glyphicon glyphicon-calendar"></span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-5">
+                                    <button type="submit" class="btn btn-primary">"Add"</button>
+                                </div>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel-body col-sm-offset-0 col-sm-7">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                            <a data-toggle="collapse" href="#collapseList">YourHomeworks</a>
+                        </h4>
+                    </div>
+                    <div id="collapseList">
+                        <!-- Modify the list in index.html to include Delete buttons -->
+                        <div>
+                            {% if tasks|length == 0 %}
+                                <div class="panel-body">
+                                    <div class="col-sm-10">
+                                        NoTasks
+                                    </div>
+                                </div>
+                                        
+                            {% else %}
+                            {% for task in tasks %}
+                                <form id="delete-form-{{ task.id }}" action="/delete" method="POST" style="display:none;">
+                                    <input type="hidden" name="event_id" value="{{ task.id }}">
+                                </form>
+                                <div class="panel-body">
+                                    <div class="col-sm-10">
+                                        <label for="{{ task.id }}">{{ task.start.dateTime}}:</label>
+                                        <label for="{{ task.id }}">{{ task.summary }}</label>
+                                    </div>
+                                    <div class="col-sm-offset-10">
+                                        <button type="button" class="btn btn-danger"
+                                            onclick="deleteTask('{{ task.id }}')">Delete</button>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <script>
+        function deleteTask(id) {
+            if (confirm('Are you sure you want to delete this task?')) {
+                document.getElementById('delete-form-' + id).submit();
+            }
+        }
+    </script>
 </body>
 
 </html>
