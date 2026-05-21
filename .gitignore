@@ -75,3 +75,4 @@ events
 *.pot
 compiti.sqbpro
 compiti.db
+.venv/

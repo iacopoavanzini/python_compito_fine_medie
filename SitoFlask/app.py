@@ -6,11 +6,12 @@ def home():
     compiti = get_compiti()
     for row in compiti:
         print(row)
-    return render_template('index.html' , tasks=compiti)
+    return render_template('index.html' , compiti=compiti)
 
 @app .route("/compiti" , methods=["GET"]) 
 def compiti(): 
     return get_compiti()
+
 @app.route("/compiti", methods=["POST"]) 
 def  AddText(): 
     if request.method == "POST" : 
