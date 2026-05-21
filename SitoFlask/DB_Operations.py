@@ -3,6 +3,7 @@ import datetime
 def get_compiti():
     connection = sqlite3.connect("compiti.db")
     cursor = connection.cursor()
+    cursor.row_factory = sqlite3.Row
     cursor.execute("""CREATE TABLE IF NOT EXISTS "compiti" (
 	"id"	INTEGER,
 	"descrizione"	TEXT,
@@ -15,7 +16,7 @@ def get_compiti():
 );""")
     cursor.execute("""SELECT id, descrizione, titolo, data_scadenza FROM COMPITI;""")
     rows = cursor.fetchall()
-    return rows
+    return [dict(row) for row in rows]
 
 
 #inserting data to db
