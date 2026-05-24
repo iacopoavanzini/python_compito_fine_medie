@@ -39,9 +39,12 @@ def init_db():
             "Geografia",
             "Scienze",
             "Educazione Fisica",
+            "Spagnolo",
             "Arte",
             "Musica",
-            "Informatica"
+            "Religione",
+            "Tecnologia",
+            "Strumento"
         ]
         for subject in default_subjects:
             cursor.execute(
@@ -64,18 +67,13 @@ def init_db():
         # List of (week_day_id, subject_id) tuples
         # week_day_id: 1=Monday, 2=Tuesday, 3=Wednesday, 4=Thursday, 5=Friday, 6=Saturday, 7=Sunday
         # subject_id: corresponds to ID in school_subjects table
-        subjects_days = [
-            (1, 1),   # Monday: Matematica
-            (1, 2),   # Monday: Italiano
-            (2, 3),   # Tuesday: Inglese
-            (2, 4),   # Tuesday: Storia
-            (3, 5),   # Wednesday: Geografia
-            (3, 6),   # Wednesday: Scienze
-            (4, 7),   # Thursday: Educazione Fisica
-            (4, 8),   # Thursday: Arte
-            (5, 9),   # Friday: Musica
-            (5, 10),  # Friday: Informatica
-        ]
+        subjects_days = ['''
+            (1, 9), (1, 1), (1, 8), (1, 2), (1, 4)
+            (2, 12), (2, 3), (2, 2), (2, 1)
+            (3, 1), (3, 6), (3, 8), (3, 10), (3, 11), (3, 2),
+            (4, 7), (4, 3), (4, 2), (4, 6), (4, 4),
+            (5, 10),(5, 9), (5, 5), (5, 1), (5, 3)
+        ''']
         for week_day_id, subject_id in subjects_days:
             cursor.execute(
                 "INSERT INTO subjects_days (id_week_day, id_subject, creation_date) VALUES (?, ?, ?)",
