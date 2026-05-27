@@ -67,13 +67,13 @@ def init_db():
         # List of (week_day_id, subject_id) tuples
         # week_day_id: 1=Monday, 2=Tuesday, 3=Wednesday, 4=Thursday, 5=Friday, 6=Saturday, 7=Sunday
         # subject_id: corresponds to ID in school_subjects table
-        subjects_days = ['''
-            (1, 9), (1, 1), (1, 8), (1, 2), (1, 4)
-            (2, 12), (2, 3), (2, 2), (2, 1)
+        subjects_days = [
+            (1, 9), (1, 1), (1, 8), (1, 2), (1, 4),
+            (2, 12), (2, 3), (2, 2), (2, 1),
             (3, 1), (3, 6), (3, 8), (3, 10), (3, 11), (3, 2),
             (4, 7), (4, 3), (4, 2), (4, 6), (4, 4),
             (5, 10),(5, 9), (5, 5), (5, 1), (5, 3)
-        ''']
+        ]
         for week_day_id, subject_id in subjects_days:
             cursor.execute(
                 "INSERT INTO subjects_days (id_week_day, id_subject, creation_date) VALUES (?, ?, ?)",
@@ -118,3 +118,19 @@ def delete_compiti(id):
     connection.commit()
     connection.close()
     return 1
+
+def get_data_scadenza(id):
+    connection = sqlite3.connect("compiti.db")
+    cursor = connection.cursor()
+    cursor.row_factory = sqlite3.Row
+    oggi = datetime.datetime.now() 
+    numero_giorno = oggi.weekday() + 1 
+    cursor.execute("""SELECT id_week_day FROM subjects_days as sd INNER JOIN school_subjects as ss ON ss.id = sd.id_subject 
+WHERE subject = ? AND id_week_day > ? ORDER by id_week_day ASC""", (id, numero_giorno))
+    row = cursor.fetchone()
+    connection.close()
+    if row is None:  # or just "if row"
+        return None
+    numero_giorno_materia = row[0]
+    delta_giorni = numero_giorno_materia - numero_giorno
+    return oggi + datetime.timedelta(days = delta_giorni)
